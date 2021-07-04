@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ResponsiveTreeMap } from '@nivo/treemap';
 import ContainerDimensions from 'react-container-dimensions';
-import { API_URI } from '../api';
 import { formatData } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
-import { BLOCK_SIZE } from '../utils/constants';
+import { BLOCK_SIZE, API_URI } from '../utils/constants';
 
 const TreeMapGraph = () => {
   const { state: filters } = useFilters();
