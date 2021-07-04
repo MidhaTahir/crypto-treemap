@@ -1,6 +1,6 @@
-export function formatData(data) {
+export function formatData(data, filterField) {
   return {
-    name: 'Coin Tree Map',
+    name: 'CoinTreeMap',
     children: data.map((coinInfo, coinIdx) => {
       const color =
         coinInfo.price_change_percentage_1h_in_currency > 0
@@ -9,7 +9,7 @@ export function formatData(data) {
       return {
         id: coinIdx,
         name: coinInfo.symbol.toUpperCase(),
-        value: coinInfo.market_cap,
+        value: coinInfo[filterField],
         otherData: coinInfo,
         color,
       };

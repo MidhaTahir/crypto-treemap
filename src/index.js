@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'semantic-ui-css/semantic.min.css';
 
-document.title = 'Coin TreeMap';
+document.title = 'CoinTreeMap';
 
 ReactDOM.render(
   <React.StrictMode>

@@ -21,7 +21,7 @@ function Filters() {
   return (
     <Form>
       <Form.Group>
-        <Form.Field>
+        {/* <Form.Field>
           <Dropdown
             {...dropDownOptions}
             placeholder="Type"
@@ -40,7 +40,7 @@ function Filters() {
             onChange={onPerformanceChange}
             options={arrayToObject(Object.keys(PERFORMANCE))}
           />
-        </Form.Field>
+        </Form.Field> */}
         <Form.Field>
           <Dropdown
             {...dropDownOptions}
