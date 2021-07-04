@@ -8,10 +8,19 @@ export function formatData(data) {
           : 'hsl(0, 100%, 50%)';
       return {
         id: coinIdx,
-        name: coinInfo.name,
+        name: coinInfo.symbol.toUpperCase(),
         value: coinInfo.market_cap,
+        otherData: coinInfo,
         color,
       };
     }),
   };
 }
+
+export const arrayToObject = array => {
+  return array.map(value => ({
+    key: value,
+    text: value,
+    value: value,
+  }));
+};

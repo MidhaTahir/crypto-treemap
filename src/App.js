@@ -1,5 +1,14 @@
+import Filters from './components/Filters';
 import TreeMapGraph from './components/TreeMapGraph';
+import { FiltersProvider } from './context/filtersContext';
 
-const App = () => <TreeMapGraph />;
+function App() {
+  return (
+    <FiltersProvider>
+      <Filters />
+      <TreeMapGraph />
+    </FiltersProvider>
+  );
+}
 
 export default App;
