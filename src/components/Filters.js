@@ -21,7 +21,7 @@ function Filters() {
   return (
     <Form>
       <Form.Group>
-        {/* <Form.Field>
+        <Form.Field>
           <Dropdown
             {...dropDownOptions}
             placeholder="Type"
@@ -40,7 +40,7 @@ function Filters() {
             onChange={onPerformanceChange}
             options={arrayToObject(Object.keys(PERFORMANCE))}
           />
-        </Form.Field> */}
+        </Form.Field>
         <Form.Field>
           <Dropdown
             {...dropDownOptions}
@@ -49,6 +49,16 @@ function Filters() {
             defaultValue={filter.blockSize}
             onChange={onBlockSizeChange}
             options={arrayToObject(Object.keys(BLOCK_SIZE))}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Dropdown
+            {...dropDownOptions}
+            placeholder="Gainers And Losers"
+            icon="bitcoin"
+            defaultValue={filter.type}
+            onChange={onTypeChange}
+            options={arrayToObject(TYPE_OF)}
           />
         </Form.Field>
       </Form.Group>

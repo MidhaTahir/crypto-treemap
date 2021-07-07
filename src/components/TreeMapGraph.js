@@ -3,7 +3,7 @@ import { ResponsiveTreeMap } from '@nivo/treemap';
 import ContainerDimensions from 'react-container-dimensions';
 import { formatData } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
-import { BLOCK_SIZE, API_URI } from '../utils/constants';
+import { BLOCK_SIZE, API_URI, PERFORMANCE } from '../utils/constants';
 
 const TreeMapGraph = () => {
   const { state: filters } = useFilters();
@@ -16,7 +16,7 @@ const TreeMapGraph = () => {
       .catch(err => console.log(err));
   }, []);
 
-  const formattedData = formatData(response, BLOCK_SIZE[filters.blockSize]);
+  const formattedData = formatData(response, filters);
 
   return (
     <ContainerDimensions>

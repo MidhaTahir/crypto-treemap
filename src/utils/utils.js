@@ -1,17 +1,23 @@
-export function formatData(data, filterField) {
+import { BLOCK_SIZE, PERFORMANCE } from './constants';
+
+export function formatData(data, filters) {
+  let { blockSize, performance } = filters;
+
+  blockSize = BLOCK_SIZE[blockSize];
+  performance = PERFORMANCE[performance];
+
   return {
     name: 'CoinTreeMap',
     children: data.map((coinInfo, coinIdx) => {
-      const color =
-        coinInfo.price_change_percentage_1h_in_currency > 0
-          ? 'hsl(99, 100%, 20%)'
-          : 'hsl(0, 100%, 50%)';
+      const blockColor =
+        coinInfo[performance] > 0 ? 'hsl(99, 100%, 20%)' : 'hsl(0, 100%, 50%)';
+
       return {
         id: coinIdx,
         name: coinInfo.symbol.toUpperCase(),
-        value: coinInfo[filterField],
+        value: coinInfo[blockSize],
         otherData: coinInfo,
-        color,
+        color: blockColor,
       };
     }),
   };

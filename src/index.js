@@ -7,11 +7,6 @@ import 'semantic-ui-css/semantic.min.css';
 
 document.title = 'CoinTreeMap';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));
 
 reportWebVitals();
