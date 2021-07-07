@@ -4,6 +4,7 @@ import {
   SET_TYPE,
   SET_PERFORMANCE,
   SET_BLOCK_SIZE,
+  SET_STATUS,
 } from './filtersReducer';
 
 const FiltersContext = createContext();
@@ -15,6 +16,7 @@ export const FiltersProvider = ({ children }) => {
     type: 'Coins',
     performance: '1 day',
     blockSize: 'market cap',
+    status: 'all',
   });
 
   // actions
@@ -36,12 +38,19 @@ export const FiltersProvider = ({ children }) => {
       payload: blockSize,
     });
 
+  const setStatus = status =>
+    dispatch({
+      type: SET_STATUS,
+      payload: status,
+    });
+
   const value = {
     state,
     actions: {
       setType,
       setPerformance,
       setBlockSize,
+      setStatus,
     },
   };
 

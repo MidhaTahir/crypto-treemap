@@ -1,4 +1,4 @@
-import { TYPE_OF, PERFORMANCE, BLOCK_SIZE } from '../utils/constants';
+import { TYPE_OF, PERFORMANCE, BLOCK_SIZE, STATUS } from '../utils/constants';
 import { Dropdown, Form } from 'semantic-ui-react';
 import { arrayToObject } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
@@ -9,6 +9,7 @@ function Filters() {
   const onTypeChange = (e, { value }) => actions.setType(value);
   const onPerformanceChange = (e, { value }) => actions.setPerformance(value);
   const onBlockSizeChange = (e, { value }) => actions.setBlockSize(value);
+  const onStatusChange = (e, { value }) => actions.setStatus(value);
 
   const dropDownOptions = {
     selection: true,
@@ -55,10 +56,10 @@ function Filters() {
           <Dropdown
             {...dropDownOptions}
             placeholder="Gainers And Losers"
-            icon="bitcoin"
-            defaultValue={filter.type}
-            onChange={onTypeChange}
-            options={arrayToObject(TYPE_OF)}
+            icon="arrows alternate vertical"
+            defaultValue={filter.status}
+            onChange={onStatusChange}
+            options={arrayToObject(Object.keys(STATUS))}
           />
         </Form.Field>
       </Form.Group>
