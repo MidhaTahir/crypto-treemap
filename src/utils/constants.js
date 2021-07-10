@@ -1,4 +1,5 @@
 export const TYPE_OF = ['Coins and Tokens', 'Coins', 'Tokens'];
+
 export const PERFORMANCE = {
   '1 hr': 'price_change_percentage_1h_in_currency',
   '1 day': 'price_change_percentage_24h_in_currency',
@@ -14,6 +15,7 @@ export const BLOCK_SIZE = {
 export const STATUS = {
   gainers: 'gainers',
   losers: 'losers',
+  all: 'all',
 };
 
 export const API_URI =

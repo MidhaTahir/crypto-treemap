@@ -13,7 +13,7 @@ const TreeMapGraph = () => {
     fetch(`${API_URI}`)
       .then(res => res.json())
       .then(data => setResponse(data))
-      .catch(err => console.log(err));
+      .catch(error => console.error({ error }));
   }, []);
 
   const formattedData = formatData(response, filters);
