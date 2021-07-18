@@ -21,7 +21,7 @@ const TreeMapGraph = () => {
       .then(res => res.json())
       .then(data => setResponse(data))
       .catch(error => console.error({ error }));
-  }, []);
+  }, [filters.category]);
 
   const formattedData = formatData(response, filters, coins, tokens);
 
