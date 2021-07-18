@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, PERFORMANCE, STATUS, TYPE } from './constants';
+import { BLOCK_SIZE, CATEGORY, PERFORMANCE, STATUS, TYPE } from './constants';
 
 const computeBlockColor = (performance, status) => {
   const red = 'hsl(0, 100%, 50%)',
@@ -15,11 +15,12 @@ const computeBlockColor = (performance, status) => {
 };
 
 export function formatData(data, filters, coins = [], tokens = []) {
-  let { blockSize, performance, status, type } = filters;
+  let { blockSize, performance, status, type, category } = filters;
 
   blockSize = BLOCK_SIZE[blockSize];
   performance = PERFORMANCE[performance];
   type = TYPE[type];
+  category = CATEGORY[category];
 
   // filtering data acc to status(gainers/losers)
   const filteredData = data
@@ -52,7 +53,8 @@ export function formatData(data, filters, coins = [], tokens = []) {
         );
       }
       return false;
-    });
+    })
+    .filter(coinInfo => coinInfo.total_volume >= filters.volume);
 
   return {
     name: 'CoinTreeMap',

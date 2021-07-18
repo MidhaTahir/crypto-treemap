@@ -4,6 +4,12 @@ export const TYPE = {
   Tokens: 'tokens',
 };
 
+export const CATEGORY = {
+  ETF: 'etf',
+  'Meme Tokens': 'meme-token',
+  'Privacy Coins': 'privacy-coins',
+};
+
 export const PERFORMANCE = {
   '1 hr': 'price_change_percentage_1h_in_currency',
   '1 day': 'price_change_percentage_24h_in_currency',
