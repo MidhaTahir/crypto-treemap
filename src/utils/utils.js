@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, CATEGORY, PERFORMANCE, STATUS, TYPE } from './constants';
+import { BLOCK_SIZE, PERFORMANCE, STATUS, TYPE } from './constants';
 
 const computeBlockColor = (performance, status) => {
   const red = 'hsl(0, 100%, 50%)',
@@ -15,12 +15,11 @@ const computeBlockColor = (performance, status) => {
 };
 
 export function formatData(data, filters, coins = [], tokens = []) {
-  let { blockSize, performance, status, type, category } = filters;
+  let { blockSize, performance, status, type } = filters;
 
   blockSize = BLOCK_SIZE[blockSize];
   performance = PERFORMANCE[performance];
   type = TYPE[type];
-  category = CATEGORY[category];
 
   // filtering data acc to status(gainers/losers)
   const filteredData = data
@@ -58,17 +57,19 @@ export function formatData(data, filters, coins = [], tokens = []) {
 
   return {
     name: 'CoinTreeMap',
-    children: filteredData.map((coinInfo, coinIdx) => {
-      const blockColor = computeBlockColor(coinInfo[performance], status);
+    children: filteredData
+      .map((coinInfo, coinIdx) => {
+        const blockColor = computeBlockColor(coinInfo[performance], status);
 
-      return {
-        id: coinIdx,
-        name: coinInfo.symbol.toUpperCase(),
-        value: coinInfo[blockSize],
-        otherData: coinInfo,
-        color: blockColor,
-      };
-    }),
+        return {
+          id: coinInfo.id,
+          name: `${coinInfo.symbol.toUpperCase()}`,
+          value: coinInfo[blockSize],
+          otherData: coinInfo,
+          color: blockColor,
+        };
+      })
+      .filter(coinInfo => coinInfo.value !== 0),
   };
 }
 

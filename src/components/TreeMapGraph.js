@@ -4,26 +4,62 @@ import { calculateFontSize, formatData } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
 import { API_URI } from '../api';
 import { useCoinsTokens } from '../context/coinsTokensContext';
+import { CATEGORY } from '../utils/constants';
+import { useSliderSettings } from '../context/sliderSettingsContext';
 
 const TreeMapGraph = () => {
   const { state: filters } = useFilters();
+  const { setSettings } = useSliderSettings();
   const { coins, tokens } = useCoinsTokens();
-  const [response, setResponse] = useState([]);
+  const [data, setData] = useState([]);
+  const [responses, setResponses] = useState({
+    [CATEGORY.ETF]: [],
+    [CATEGORY['Meme Tokens']]: [],
+    [CATEGORY['Privacy Coins']]: [],
+  });
 
   useEffect(() => {
-    let API_TO_REQUEST = API_URI;
-    if (filters.category === 'Meme Tokens') {
-      API_TO_REQUEST = `${API_URI}&category=meme-token`;
-    } else if (filters.category === 'Privacy Coins') {
-      API_TO_REQUEST = `${API_URI}&category=privacy-coins`;
-    }
-    fetch(`${API_TO_REQUEST}`)
-      .then(res => res.json())
-      .then(data => setResponse(data))
-      .catch(error => console.error({ error }));
-  }, [filters.category]);
+    // requesting api for data
+    const URLS = {
+      [CATEGORY.ETF]: API_URI,
+      [CATEGORY['Meme Tokens']]: `${API_URI}&category=meme-token`,
+      [CATEGORY['Privacy Coins']]: `${API_URI}&category=privacy-coins`,
+    };
 
-  const formattedData = formatData(response, filters, coins, tokens);
+    Object.keys(URLS).forEach(key => {
+      const url = URLS[key];
+      fetch(`${url}`)
+        .then(res => res.json())
+        .then(data =>
+          setResponses(prev => ({
+            ...prev,
+            [key]: data,
+          }))
+        )
+        .catch(error => console.error({ error }));
+    });
+  }, []);
+
+  useEffect(() => {
+    const category = CATEGORY[filters.category];
+    setData(responses[category]);
+  }, [responses, filters.category]);
+
+  useEffect(() => {
+    setSettings(prevSettings => {
+      const volumes = data.map(item => item.total_volume);
+      const min = Math.min(...volumes);
+      const max = Math.max(...volumes);
+      return {
+        ...prevSettings,
+        start: min,
+        min,
+        max,
+      };
+    });
+  }, [data, setSettings]);
+
+  const formattedData = formatData(data, filters, coins, tokens);
 
   useEffect(() => {
     const tags = Array.from(document.getElementsByTagName('text'));
