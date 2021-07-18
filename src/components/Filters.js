@@ -1,4 +1,4 @@
-import { TYPE_OF, PERFORMANCE, BLOCK_SIZE, STATUS } from '../utils/constants';
+import { TYPE, PERFORMANCE, BLOCK_SIZE, STATUS } from '../utils/constants';
 import { Dropdown, Form } from 'semantic-ui-react';
 import { arrayToObject } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
@@ -29,7 +29,7 @@ function Filters() {
             icon="bitcoin"
             defaultValue={filter.type}
             onChange={onTypeChange}
-            options={arrayToObject(TYPE_OF)}
+            options={arrayToObject(Object.keys(TYPE))}
           />
         </Form.Field>
         <Form.Field>

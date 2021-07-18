@@ -1,4 +1,4 @@
-import { BLOCK_SIZE, PERFORMANCE, STATUS } from './constants';
+import { BLOCK_SIZE, PERFORMANCE, STATUS, TYPE } from './constants';
 
 const computeBlockColor = (performance, status) => {
   const red = 'hsl(0, 100%, 50%)',
@@ -14,24 +14,45 @@ const computeBlockColor = (performance, status) => {
   }
 };
 
-export function formatData(data, filters) {
-  let { blockSize, performance, status } = filters;
+export function formatData(data, filters, coins = [], tokens = []) {
+  let { blockSize, performance, status, type } = filters;
 
   blockSize = BLOCK_SIZE[blockSize];
   performance = PERFORMANCE[performance];
+  type = TYPE[type];
 
   // filtering data acc to status(gainers/losers)
-  const filteredData = data.filter(coinInfo => {
-    if (status === STATUS.all) {
-      return true;
-    }
-    if (status === STATUS.gainers) {
-      return coinInfo.price_change_percentage_24h > 0;
-    }
-    if (status === STATUS.losers) {
-      return coinInfo.price_change_percentage_24h < 0;
-    }
-  });
+  const filteredData = data
+    .filter(coinInfo => {
+      if (status === STATUS.all) {
+        return true;
+      }
+      if (status === STATUS.gainers) {
+        return coinInfo.price_change_percentage_24h > 0;
+      }
+      if (status === STATUS.losers) {
+        return coinInfo.price_change_percentage_24h < 0;
+      }
+      return false;
+    })
+    .filter(coinInfo => {
+      if (type === TYPE['Coins and Tokens']) {
+        return true;
+      }
+      if (type === TYPE.Coins) {
+        return (
+          typeof coins.find(coinSymbol => coinSymbol === coinInfo.symbol) !==
+          'undefined'
+        );
+      }
+      if (type === TYPE.Tokens) {
+        return (
+          typeof tokens.find(tokenSymbol => tokenSymbol === coinInfo.symbol) !==
+          'undefined'
+        );
+      }
+      return false;
+    });
 
   return {
     name: 'CoinTreeMap',
@@ -55,4 +76,12 @@ export const arrayToObject = array => {
     text: value,
     value: value,
   }));
+};
+
+export const calculateFontSize = ({ width, height }) => {
+  // const area = width * height;
+  const min = 11;
+  const max = 70;
+  const fontSize = (width * 16) / 100;
+  return fontSize < min ? min : fontSize > max ? max : fontSize;
 };

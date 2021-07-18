@@ -1,4 +1,8 @@
-export const TYPE_OF = ['Coins and Tokens', 'Coins', 'Tokens'];
+export const TYPE = {
+  'Coins and Tokens': 'all',
+  Coins: 'coins',
+  Tokens: 'tokens',
+};
 
 export const PERFORMANCE = {
   '1 hr': 'price_change_percentage_1h_in_currency',
@@ -17,6 +21,3 @@ export const STATUS = {
   losers: 'losers',
   all: 'all',
 };
-
-export const API_URI =
-  'https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d%2C14d%2C30d%2C200d%2C1y';

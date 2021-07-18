@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { ResponsiveTreeMap } from '@nivo/treemap';
 import ContainerDimensions from 'react-container-dimensions';
-import { formatData } from '../utils/utils';
+import { calculateFontSize, formatData } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
-import { API_URI } from '../utils/constants';
+import { API_URI } from '../api';
+import { useCoinsTokens } from '../context/coinsTokensContext';
 
 const TreeMapGraph = () => {
   const { state: filters } = useFilters();
+  const { coins, tokens } = useCoinsTokens();
   const [response, setResponse] = useState([]);
 
   useEffect(() => {
@@ -16,7 +18,16 @@ const TreeMapGraph = () => {
       .catch(error => console.error({ error }));
   }, []);
 
-  const formattedData = formatData(response, filters);
+  const formattedData = formatData(response, filters, coins, tokens);
+
+  useEffect(() => {
+    const tags = Array.from(document.getElementsByTagName('text'));
+    tags.forEach(tag => {
+      const parent = tag.parentElement;
+      const dimensions = parent.getBoundingClientRect();
+      tag.style.fontSize = `${calculateFontSize(dimensions)}px`;
+    });
+  });
 
   return (
     <ContainerDimensions>
