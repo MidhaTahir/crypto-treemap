@@ -6,7 +6,7 @@ export const useSliderSettings = () => useContext(SliderSettings);
 
 export const SliderSettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
-    start: 0,
+    start: [0, 1000],
     min: 0,
     max: 1000,
     step: 1,

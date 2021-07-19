@@ -8,6 +8,7 @@ import {
 import { Dropdown, Form, Label } from 'semantic-ui-react';
 import { arrayToObject } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
+import CustomSlider from './CustomSlider';
 
 function Filters() {
   const { state: filter, actions } = useFilters();
@@ -95,6 +96,7 @@ function Filters() {
               />
             </Label>
           </Form.Field>
+          <CustomSlider />
         </Form.Group>
       </Form>
     </>

@@ -12,14 +12,21 @@ const CustomSlider = () => {
   const settings = {
     ...sliderSettings,
     onChange: value => {
-      actions.setVolume(value);
+      console.log(value);
+      actions.setVolume(value[1] - value[0]);
     },
   };
 
   return (
     <>
-      <Label>Volume Range(Market Cap Range)</Label>
-      <Slider value={filters.volume} color="black" settings={settings} />
+      <Label style={{ width: '300px' }}>
+        {filters.blockSize === 'market cap'
+          ? 'Market Cap Range'
+          : 'Volume Size Range'}
+        :{filters.volume}
+        {/* value={filters.volume} */}
+        <Slider multiple color="black" settings={settings} />
+      </Label>
     </>
   );
 };

@@ -47,17 +47,22 @@ const TreeMapGraph = () => {
 
   useEffect(() => {
     setSettings(prevSettings => {
-      const volumes = data.map(item => item.total_volume);
+      let volumes = [];
+      if (filters.blockSize === 'market cap') {
+        volumes = data.map(item => item.market_cap);
+      } else {
+        volumes = data.map(item => item.total_volume);
+      }
       const min = Math.min(...volumes);
       const max = Math.max(...volumes);
       return {
         ...prevSettings,
-        start: min,
+        start: [min, max],
         min,
         max,
       };
     });
-  }, [data, setSettings]);
+  }, [data, setSettings, filters.blockSize]);
 
   const formattedData = formatData(data, filters, coins, tokens);
 

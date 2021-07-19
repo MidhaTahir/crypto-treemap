@@ -53,7 +53,13 @@ export function formatData(data, filters, coins = [], tokens = []) {
       }
       return false;
     })
-    .filter(coinInfo => coinInfo.total_volume >= filters.volume);
+    .filter(coinInfo => {
+      if (blockSize === 'market cap') {
+        return coinInfo.market_cap >= filters.volume;
+      } else {
+        return coinInfo.total_volume >= filters.volume;
+      }
+    });
 
   return {
     name: 'CoinTreeMap',
