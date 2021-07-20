@@ -24,7 +24,6 @@ const CustomSlider = () => {
           ? 'Market Cap Range'
           : 'Volume Size Range'}
         :{filters.volume}
-        {/* value={filters.volume} */}
         <Slider multiple color="black" settings={settings} />
       </Label>
     </>

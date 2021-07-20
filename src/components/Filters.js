@@ -1,17 +1,13 @@
-import {
-  TYPE,
-  CATEGORY,
-  PERFORMANCE,
-  BLOCK_SIZE,
-  STATUS,
-} from '../utils/constants';
+import { TYPE, PERFORMANCE, BLOCK_SIZE, STATUS } from '../utils/constants';
 import { Dropdown, Form, Label } from 'semantic-ui-react';
 import { arrayToObject } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
 import CustomSlider from './CustomSlider';
+import { useCategories } from '../context/categoriesContext';
 
 function Filters() {
   const { state: filter, actions } = useFilters();
+  const { categories } = useCategories();
 
   const onTypeChange = (e, { value }) => actions.setType(value);
   const onCategoryChange = (e, { value }) => actions.setCategory(value);
@@ -53,7 +49,7 @@ function Filters() {
                 icon="slack"
                 defaultValue={filter.category}
                 onChange={onCategoryChange}
-                options={arrayToObject(Object.keys(CATEGORY))}
+                options={arrayToObject(Object.keys(categories))}
               />
             </Label>
           </Form.Field>

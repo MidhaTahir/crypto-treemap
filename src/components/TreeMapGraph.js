@@ -4,46 +4,61 @@ import { calculateFontSize, formatData } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
 import { API_URI } from '../api';
 import { useCoinsTokens } from '../context/coinsTokensContext';
-import { CATEGORY } from '../utils/constants';
 import { useSliderSettings } from '../context/sliderSettingsContext';
+import { useCategories } from '../context/categoriesContext';
+import { Loader, Message } from 'semantic-ui-react';
 
 const TreeMapGraph = () => {
-  const { state: filters } = useFilters();
+  const [loading, setLoading] = useState(false);
+  const { state: filters, actions } = useFilters();
   const { setSettings } = useSliderSettings();
   const { coins, tokens } = useCoinsTokens();
   const [data, setData] = useState([]);
+  const { categories: CATEGORY, setCategories } = useCategories();
   const [responses, setResponses] = useState({
-    [CATEGORY.ETF]: [],
-    [CATEGORY['Meme Tokens']]: [],
-    [CATEGORY['Privacy Coins']]: [],
+    ...Object.keys(CATEGORY).reduce(
+      (acc, key) => ({
+        ...acc,
+        [CATEGORY[key]]: [],
+      }),
+      {}
+    ),
   });
 
   useEffect(() => {
-    // requesting api for data
-    const URLS = {
-      [CATEGORY.ETF]: API_URI,
-      [CATEGORY['Meme Tokens']]: `${API_URI}&category=meme-token`,
-      [CATEGORY['Privacy Coins']]: `${API_URI}&category=privacy-coins`,
-    };
-
-    Object.keys(URLS).forEach(key => {
-      const url = URLS[key];
+    const category = CATEGORY[filters.category];
+    if (!responses[category] || responses[category].length === 0) {
+      setLoading(true);
+      let url = API_URI;
+      if (filters.category !== 'None') {
+        url = `${url}&category=${category}`;
+      }
       fetch(`${url}`)
         .then(res => res.json())
-        .then(data =>
-          setResponses(prev => ({
-            ...prev,
-            [key]: data,
-          }))
-        )
-        .catch(error => console.error({ error }));
-    });
-  }, []);
+        .then(jsonData => {
+          console.log({
+            jsonData,
+            url,
+          });
+          if (jsonData instanceof Array) {
+            setResponses(prev => ({
+              ...prev,
+              [category]: jsonData,
+            }));
+          } else {
+            // show error message
+          }
+        })
+        .catch(error => console.log({ error }))
+        .finally(() => setTimeout(() => setLoading(false), 500));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [CATEGORY, filters.category, responses, setCategories]);
 
   useEffect(() => {
     const category = CATEGORY[filters.category];
-    setData(responses[category]);
-  }, [responses, filters.category]);
+    setData(responses[category] ?? []);
+  }, [responses, filters.category, CATEGORY]);
 
   useEffect(() => {
     setSettings(prevSettings => {
@@ -75,21 +90,34 @@ const TreeMapGraph = () => {
     });
   });
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          minHeight: '50%',
+          minWidth: '50%',
+          display: 'grid',
+          placeItems: 'center',
+        }}
+      >
+        <Loader active={true} />
+      </div>
+    );
+  }
+
   return (
     <ResponsiveTreeMap
       data={formattedData}
-      identity="name"
+      identity="id"
       value="value"
-      colors={params => {
-        return params.data.color;
-      }}
+      colors={params => params.data.color}
       margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
       labelTextColor="#ffffff"
       borderColor={{ from: 'color' }}
       leavesOnly={true}
       nodeOpacity={0.5}
-      label={function (e) {
-        return e.id;
+      label={function (coinInfo) {
+        return coinInfo.data.name;
       }}
       labelSkipSize={20}
       orientLabel={false}

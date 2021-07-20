@@ -14,7 +14,7 @@ const computeBlockColor = (performance, status) => {
   }
 };
 
-export function formatData(data, filters, coins = [], tokens = []) {
+export function formatData(data = [], filters, coins = [], tokens = []) {
   let { blockSize, performance, status, type } = filters;
 
   blockSize = BLOCK_SIZE[blockSize];
@@ -63,19 +63,18 @@ export function formatData(data, filters, coins = [], tokens = []) {
 
   return {
     name: 'CoinTreeMap',
-    children: filteredData
-      .map((coinInfo, coinIdx) => {
-        const blockColor = computeBlockColor(coinInfo[performance], status);
+    children: filteredData.map((coinInfo, coinIdx) => {
+      const blockColor = computeBlockColor(coinInfo[performance], status);
 
-        return {
-          id: coinInfo.id,
-          name: `${coinInfo.symbol.toUpperCase()}`,
-          value: coinInfo[blockSize],
-          otherData: coinInfo,
-          color: blockColor,
-        };
-      })
-      .filter(coinInfo => coinInfo.value !== 0),
+      return {
+        id: coinInfo.id,
+        name: `${coinInfo.symbol.toUpperCase()}`,
+        value: coinInfo[blockSize],
+        otherData: coinInfo,
+        color: blockColor,
+      };
+    }),
+    // .filter(coinInfo => coinInfo.value !== 0),
   };
 }
 
