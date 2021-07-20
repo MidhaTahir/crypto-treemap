@@ -6,9 +6,13 @@ import { API_URI } from '../api';
 import { useCoinsTokens } from '../context/coinsTokensContext';
 import { useSliderSettings } from '../context/sliderSettingsContext';
 import { useCategories } from '../context/categoriesContext';
-import { Loader, Message } from 'semantic-ui-react';
+import { Loader } from 'semantic-ui-react';
+import CustomModal from './CustomModal';
 
 const TreeMapGraph = () => {
+  //for modal
+  const [open, setOpen] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const { state: filters, actions } = useFilters();
   const { setSettings } = useSliderSettings();
@@ -47,6 +51,7 @@ const TreeMapGraph = () => {
             }));
           } else {
             // show error message
+            setOpen(true);
           }
         })
         .catch(error => console.log({ error }))
@@ -106,51 +111,58 @@ const TreeMapGraph = () => {
   }
 
   return (
-    <ResponsiveTreeMap
-      data={formattedData}
-      identity="id"
-      value="value"
-      colors={params => params.data.color}
-      margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-      labelTextColor="#ffffff"
-      borderColor={{ from: 'color' }}
-      leavesOnly={true}
-      nodeOpacity={0.5}
-      label={function (coinInfo) {
-        return coinInfo.data.name;
-      }}
-      labelSkipSize={20}
-      orientLabel={false}
-      tooltip={({ node }) => {
-        const otherData = node?.data?.otherData;
-        if (otherData) {
-          return (
-            <div style={{ color: '#ffffff' }} className="TreeMapGraph__Tooltip">
-              <h4>{otherData?.name}:</h4>
-              <p>Current Price: ${otherData?.current_price}</p>
-              <p>Market Cap: ${otherData?.market_cap}</p>
-              <p>
-                Price Change (24hr): $
-                {otherData?.price_change_percentage_1h_in_currency.toFixed(3)}
-              </p>
-            </div>
-          );
-        } else {
-          return (
-            <strong style={{ color: node.color }}>
-              {node.name}: {node.formattedValue}
-            </strong>
-          );
-        }
-      }}
-      theme={{
-        tooltip: {
-          container: {
-            background: '#282829',
+    <>
+      {open && <CustomModal open={open} setOpen={setOpen} />}
+
+      <ResponsiveTreeMap
+        data={formattedData}
+        identity="id"
+        value="value"
+        colors={params => params.data.color}
+        margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+        labelTextColor="#ffffff"
+        borderColor={{ from: 'color' }}
+        leavesOnly={true}
+        nodeOpacity={0.5}
+        label={function (coinInfo) {
+          return coinInfo.data.name;
+        }}
+        labelSkipSize={20}
+        orientLabel={false}
+        tooltip={({ node }) => {
+          const otherData = node?.data?.otherData;
+          if (otherData) {
+            return (
+              <div
+                style={{ color: '#ffffff' }}
+                className="TreeMapGraph__Tooltip"
+              >
+                <h4>{otherData?.name}:</h4>
+                <p>Current Price: ${otherData?.current_price}</p>
+                <p>Market Cap: ${otherData?.market_cap}</p>
+                <p>
+                  Price Change (24hr): $
+                  {otherData?.price_change_percentage_1h_in_currency.toFixed(3)}
+                </p>
+              </div>
+            );
+          } else {
+            return (
+              <strong style={{ color: node.color }}>
+                {node.name}: {node.formattedValue}
+              </strong>
+            );
+          }
+        }}
+        theme={{
+          tooltip: {
+            container: {
+              background: '#282829',
+            },
           },
-        },
-      }}
-    />
+        }}
+      />
+    </>
   );
 };
 
