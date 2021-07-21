@@ -15,7 +15,7 @@ export const useFilters = () => useContext(FiltersContext);
 
 export const FiltersProvider = ({ children }) => {
   const [state, dispatch] = useReducer(filtersReducer, {
-    type: 'Coins',
+    type: 'Coins and Tokens',
     category: 'None',
     performance: '1 day',
     blockSize: 'market cap',

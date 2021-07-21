@@ -14,6 +14,7 @@ export const PERFORMANCE = {
   '1 hr': 'price_change_percentage_1h_in_currency',
   '1 day': 'price_change_percentage_24h_in_currency',
   '7 days': 'price_change_percentage_7d_in_currency',
+  '14 days': 'price_change_percentage_14d_in_currency',
   '1 month': 'price_change_percentage_30d_in_currency',
 };
 

@@ -24,7 +24,7 @@ const CustomSlider = () => {
         {filters.blockSize === 'market cap'
           ? 'Market Cap Range'
           : 'Volume Size Range'}
-        :{parseInt(min / 1000)}K - {parseInt(max / 1000)}K
+        :{parseInt(min / 1000000000)}b - {parseInt(max / 1000000000)}b
         <Slider
           multiple
           color="black"
