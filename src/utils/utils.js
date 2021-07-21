@@ -54,11 +54,14 @@ export function formatData(data = [], filters, coins = [], tokens = []) {
       return false;
     })
     .filter(coinInfo => {
-      if (blockSize === 'market cap') {
-        return coinInfo.market_cap >= filters.volume;
-      } else {
-        return coinInfo.total_volume >= filters.volume;
-      }
+      // volume
+      const [min, max] = filters.volume;
+      const blockValue =
+        blockSize === 'market_cap'
+          ? coinInfo.market_cap
+          : coinInfo.total_volume;
+      console.log({ blockValue });
+      return blockValue >= min && blockValue <= max;
     });
 
   return {

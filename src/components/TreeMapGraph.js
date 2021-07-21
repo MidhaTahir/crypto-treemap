@@ -40,10 +40,6 @@ const TreeMapGraph = () => {
       fetch(`${url}`)
         .then(res => res.json())
         .then(jsonData => {
-          console.log({
-            jsonData,
-            url,
-          });
           if (jsonData instanceof Array) {
             setResponses(prev => ({
               ...prev,
@@ -73,8 +69,14 @@ const TreeMapGraph = () => {
       } else {
         volumes = data.map(item => item.total_volume);
       }
+
       const min = Math.min(...volumes);
       const max = Math.max(...volumes);
+
+      if (volumes.length) {
+        actions.setVolume([min, max]);
+      }
+
       return {
         ...prevSettings,
         start: [min, max],
@@ -82,6 +84,7 @@ const TreeMapGraph = () => {
         max,
       };
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, setSettings, filters.blockSize]);
 
   const formattedData = formatData(data, filters, coins, tokens);

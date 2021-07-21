@@ -20,7 +20,7 @@ export const FiltersProvider = ({ children }) => {
     performance: '1 day',
     blockSize: 'market cap',
     status: 'all',
-    volume: 0,
+    volume: [0, 0],
   });
 
   // actions

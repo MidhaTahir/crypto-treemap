@@ -12,10 +12,11 @@ const CustomSlider = () => {
   const settings = {
     ...sliderSettings,
     onChange: value => {
-      console.log(value);
-      actions.setVolume(value[1] - value[0]);
+      actions.setVolume(value);
     },
   };
+
+  const [min, max] = filters.volume;
 
   return (
     <>
@@ -23,8 +24,13 @@ const CustomSlider = () => {
         {filters.blockSize === 'market cap'
           ? 'Market Cap Range'
           : 'Volume Size Range'}
-        :{filters.volume}
-        <Slider multiple color="black" settings={settings} />
+        :{parseInt(min / 1000)}K - {parseInt(max / 1000)}K
+        <Slider
+          multiple
+          color="black"
+          settings={settings}
+          value={filters.volume}
+        />
       </Label>
     </>
   );
