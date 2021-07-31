@@ -60,7 +60,7 @@ export function formatData(data = [], filters, coins = [], tokens = []) {
         blockSize === 'market_cap'
           ? coinInfo.market_cap
           : coinInfo.total_volume;
-      console.log({ blockValue });
+      // console.log({ blockValue });
       return blockValue >= min && blockValue <= max;
     });
 
@@ -89,10 +89,15 @@ export const arrayToObject = array => {
   }));
 };
 
-export const calculateFontSize = ({ width, height }) => {
-  // const area = width * height;
-  const min = 11;
-  const max = 70;
-  const fontSize = (width * 16) / 100;
-  return fontSize < min ? min : fontSize > max ? max : fontSize;
+export const calculateFontSize = (width) => {
+  const baseSize = 13;
+  let textLength = (width * 12) / 100;
+  let fontSize;
+  if (textLength >= baseSize) {
+      fontSize = 2 * textLength - baseSize;
+      return fontSize;
+  } else {
+      fontSize = textLength + baseSize;
+      return fontSize;
+  }
 };
