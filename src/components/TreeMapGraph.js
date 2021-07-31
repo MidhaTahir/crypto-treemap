@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  ResponsiveTreeMapHtml } from '@nivo/treemap';
+import { ResponsiveTreeMapHtml } from '@nivo/treemap';
 import { calculateFontSize, formatData } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
 import { API_URI } from '../api';
@@ -89,21 +89,53 @@ const TreeMapGraph = () => {
 
   const formattedData = formatData(data, filters, coins, tokens);
 
-
   const FormatLabel = ({ value }) => {
     const fontSize = calculateFontSize(value.width);
     const priceFontSize = fontSize / 4;
     const changeFontSize = priceFontSize / 2;
     //let fontSizeH = fontSize / 4
-    const { current_price, price_change_percentage_1h_in_currency, change_percentage_24h_in_currency, price_change_percentage_7d_in_currency, price_change_percentage_14d_in_currency, price_change_percentage_30d_in_currency}= value.data.otherData;
+    const {
+      current_price,
+      price_change_percentage_1h_in_currency,
+      change_percentage_24h_in_currency,
+      price_change_percentage_7d_in_currency,
+      price_change_percentage_14d_in_currency,
+      price_change_percentage_30d_in_currency,
+    } = value.data.otherData;
     return (
-      <div style={{ display: 'flex',flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
-      <div style={{ fontSize, textShadow: '0.015em 0.015em 0 rgb(50 49 54 / 28%)', alignItems: 'center' }}>{value.data.name.toUpperCase()}</div>
-      <div>${current_price}</div>
-      {price_change_percentage_1h_in_currency ? <div style={{ fontSize: changeFontSize, textShadow: '0.015em 0.015em 0 rgb(50 49 54 / 28%)', alignItems: 'center' }}>{price_change_percentage_1h_in_currency > 0 ? '+' : null}{Math.round(price_change_percentage_1h_in_currency * 100) / 100}%</div> : null}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          style={{
+            fontSize,
+            textShadow: '0.015em 0.015em 0 rgb(50 49 54 / 28%)',
+            alignItems: 'center',
+          }}
+        >
+          {value.data.name.toUpperCase()}
+        </div>
+        <div>${current_price}</div>
+        {price_change_percentage_1h_in_currency ? (
+          <div
+            style={{
+              fontSize: changeFontSize,
+              textShadow: '0.015em 0.015em 0 rgb(50 49 54 / 28%)',
+              alignItems: 'center',
+            }}
+          >
+            {price_change_percentage_1h_in_currency > 0 ? '+' : null}
+            {Math.round(price_change_percentage_1h_in_currency * 100) / 100}%
+          </div>
+        ) : null}
       </div>
-    )
-}
+    );
+  };
 
   if (loading) {
     return (
@@ -119,7 +151,7 @@ const TreeMapGraph = () => {
       </div>
     );
   }
-  
+
   return (
     <>
       {open && <CustomModal open={open} setOpen={setOpen} />}
@@ -133,7 +165,7 @@ const TreeMapGraph = () => {
         borderColor={{ from: 'color' }}
         leavesOnly={true}
         nodeOpacity={0.5}
-        label={(e) => e.data.name ? <FormatLabel value={e} /> : 'No Data Found'}
+        label={e => (e.data.name ? <FormatLabel value={e} /> : 'No Data Found')}
         labelSkipSize={40}
         tile="binary"
         orientLabel={false}
@@ -164,12 +196,12 @@ const TreeMapGraph = () => {
         }}
         theme={{
           tooltip: {
-              container: {
-                  background: 'black',
-                  alignContent: 'flex-start'
-              },
-          }
-      }}
+            container: {
+              background: 'black',
+              alignContent: 'flex-start',
+            },
+          },
+        }}
       />
     </>
   );

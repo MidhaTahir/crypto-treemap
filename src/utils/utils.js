@@ -1,16 +1,39 @@
 import { BLOCK_SIZE, PERFORMANCE, STATUS, TYPE } from './constants';
 
+const greenRanger = value => {
+  if (value > 35) {
+    return 'hsl(100, 100%, 18%)';
+  } else if (value > 25 && value <= 35) {
+    return 'hsl(100, 70%, 29%)';
+  } else if (value > 4 && value <= 25) {
+    return 'hsl(100, 70%, 36%)';
+  } else {
+    return 'hsl(100, 70%, 45%)';
+  }
+};
+
+const redRanger = val => {
+  const value = Math.abs(val);
+  if (value > 35) {
+    return 'hsl(0, 100%, 20%)';
+  } else if (value > 25 && value <= 35) {
+    return 'hsl(0, 100%, 40%)';
+  } else if (value > 4 && value <= 25) {
+    return 'hsl(0, 80%, 60%)';
+  } else {
+    return 'hsl(0, 80%, 70%)';
+  }
+};
+
 const computeBlockColor = (performance, status) => {
-  const red = 'hsl(0, 100%, 50%)',
-    green = 'hsl(99, 100%, 20%)';
   if (status === STATUS.all) {
-    return performance > 0 ? green : red;
+    return performance > 0 ? greenRanger(performance) : redRanger(performance);
   }
   if (status === STATUS.gainers) {
-    return green;
+    return greenRanger(performance);
   }
   if (status === STATUS.losers) {
-    return red;
+    return redRanger(performance);
   }
 };
 
@@ -89,15 +112,15 @@ export const arrayToObject = array => {
   }));
 };
 
-export const calculateFontSize = (width) => {
+export const calculateFontSize = width => {
   const baseSize = 13;
   let textLength = (width * 12) / 100;
   let fontSize;
   if (textLength >= baseSize) {
-      fontSize = 2 * textLength - baseSize;
-      return fontSize;
+    fontSize = 2 * textLength - baseSize;
+    return fontSize;
   } else {
-      fontSize = textLength + baseSize;
-      return fontSize;
+    fontSize = textLength + baseSize;
+    return fontSize;
   }
 };
