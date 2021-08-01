@@ -1,10 +1,11 @@
 import Filters from './components/Filters';
 import TreeMapGraph from './components/TreeMapGraph';
 import { FiltersProvider } from './context/filtersContext';
-import { Header, Icon } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import { CoinsTokensProvider } from './context/coinsTokensContext';
 import { SliderSettingsProvider } from './context/sliderSettingsContext';
 import { CategoriesProvider } from './context/categoriesContext';
+import { ReactComponent as Logo } from './logo.svg';
 
 function App() {
   return (
@@ -12,10 +13,20 @@ function App() {
       <FiltersProvider>
         <SliderSettingsProvider>
           <CoinsTokensProvider>
-            <Header as="h2">
-              <Icon name="dollar sign" />
-              <Header.Content>Coin Map</Header.Content>
-            </Header>
+            <div
+              style={{
+                backgroundColor: '#dbdbdb',
+                padding: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '10px',
+              }}
+            >
+              <Header as="h2">
+                <Logo />
+                <Header.Content>Coin Map</Header.Content>
+              </Header>
+            </div>
             <Filters />
             <TreeMapGraph />
           </CoinsTokensProvider>

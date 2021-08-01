@@ -28,6 +28,7 @@ function Filters() {
     className: 'icon',
     floating: true,
     labeled: true,
+    style: { marginTop: '5px' },
   };
 
   return (
@@ -36,7 +37,7 @@ function Filters() {
         <Form.Group>
           <Form.Field>
             <Label>
-              Type:{' '}
+              Type{' '}
               <Dropdown
                 {...dropDownOptions}
                 placeholder="Type"
@@ -49,7 +50,7 @@ function Filters() {
           </Form.Field>
           <Form.Field>
             <Label>
-              Category:{' '}
+              Category{' '}
               <Dropdown
                 {...dropDownOptions}
                 placeholder="Category"
@@ -62,7 +63,7 @@ function Filters() {
           </Form.Field>
           <Form.Field>
             <Label>
-              No. of Tiles:{' '}
+              No. of Tiles{' '}
               <Dropdown
                 {...dropDownOptions}
                 placeholder="Tiles"
@@ -75,7 +76,7 @@ function Filters() {
           </Form.Field>
           <Form.Field>
             <Label>
-              Performance:{' '}
+              Performance{' '}
               <Dropdown
                 {...dropDownOptions}
                 placeholder="Performance"
@@ -88,7 +89,7 @@ function Filters() {
           </Form.Field>
           <Form.Field>
             <Label>
-              Block :{' '}
+              Block{' '}
               <Dropdown
                 {...dropDownOptions}
                 placeholder="Block Size"
@@ -101,7 +102,7 @@ function Filters() {
           </Form.Field>
           <Form.Field>
             <Label>
-              Status :{' '}
+              Status{' '}
               <Dropdown
                 {...dropDownOptions}
                 placeholder="Gainers And Losers"
