@@ -8,6 +8,7 @@ import { useSliderSettings } from '../context/sliderSettingsContext';
 import { useCategories } from '../context/categoriesContext';
 import { Loader } from 'semantic-ui-react';
 import CustomModal from './CustomModal';
+import { BILLION } from '../utils/constants';
 
 const TreeMapGraph = () => {
   //for modal
@@ -70,8 +71,8 @@ const TreeMapGraph = () => {
         volumes = data.map(item => item.total_volume);
       }
 
-      const min = Math.min(...volumes);
-      const max = Math.max(...volumes);
+      const min = Math.min(...volumes) / BILLION;
+      const max = Math.max(...volumes) / BILLION;
 
       if (volumes.length) {
         actions.setVolume([min, max]);
@@ -101,7 +102,7 @@ const TreeMapGraph = () => {
       price_change_percentage_7d_in_currency,
       price_change_percentage_14d_in_currency,
       price_change_percentage_30d_in_currency,
-    } = value.data.otherData;
+    } = value.data.otherData ?? {};
     return (
       <div
         style={{
@@ -116,6 +117,7 @@ const TreeMapGraph = () => {
             fontSize,
             textShadow: '0.015em 0.015em 0 rgb(50 49 54 / 28%)',
             alignItems: 'center',
+            marginBottom: '20%',
           }}
         >
           {value.data.name.toUpperCase()}
@@ -164,11 +166,12 @@ const TreeMapGraph = () => {
         labelTextColor="#ffffff"
         borderColor={{ from: 'color' }}
         leavesOnly={true}
-        nodeOpacity={0.5}
+        nodeOpacity={0.9}
         label={e => (e.data.name ? <FormatLabel value={e} /> : 'No Data Found')}
         labelSkipSize={40}
         tile="binary"
         orientLabel={false}
+        borderWidth={1}
         tooltip={({ node }) => {
           const otherData = node?.data?.otherData;
           if (otherData) {

@@ -28,3 +28,13 @@ export const STATUS = {
   losers: 'losers',
   all: 'all',
 };
+
+// prettier-ignore
+export const TILES = {
+  '50': 50,
+  '150': 150,
+  '200': 200,
+  '250': 250,
+};
+
+export const BILLION = 1000000000;

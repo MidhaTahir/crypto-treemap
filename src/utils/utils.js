@@ -1,4 +1,11 @@
-import { BLOCK_SIZE, PERFORMANCE, STATUS, TYPE } from './constants';
+import {
+  BILLION,
+  BLOCK_SIZE,
+  PERFORMANCE,
+  STATUS,
+  TILES,
+  TYPE,
+} from './constants';
 
 const greenRanger = value => {
   if (value > 35) {
@@ -38,11 +45,13 @@ const computeBlockColor = (performance, status) => {
 };
 
 export function formatData(data = [], filters, coins = [], tokens = []) {
-  let { blockSize, performance, status, type } = filters;
+  let { blockSize, performance, status, type, tiles } = filters;
 
   blockSize = BLOCK_SIZE[blockSize];
   performance = PERFORMANCE[performance];
   type = TYPE[type];
+
+  data = data.slice(0, TILES[tiles]);
 
   // filtering data acc to status(gainers/losers)
   const filteredData = data
@@ -84,7 +93,7 @@ export function formatData(data = [], filters, coins = [], tokens = []) {
           ? coinInfo.market_cap
           : coinInfo.total_volume;
       // console.log({ blockValue });
-      return blockValue >= min && blockValue <= max;
+      return blockValue >= min * BILLION && blockValue <= max * BILLION;
     });
 
   return {

@@ -1,4 +1,10 @@
-import { TYPE, PERFORMANCE, BLOCK_SIZE, STATUS } from '../utils/constants';
+import {
+  TYPE,
+  PERFORMANCE,
+  BLOCK_SIZE,
+  STATUS,
+  TILES,
+} from '../utils/constants';
 import { Dropdown, Form, Label } from 'semantic-ui-react';
 import { arrayToObject } from '../utils/utils';
 import { useFilters } from '../context/filtersContext';
@@ -11,6 +17,7 @@ function Filters() {
 
   const onTypeChange = (e, { value }) => actions.setType(value);
   const onCategoryChange = (e, { value }) => actions.setCategory(value);
+  const onTilesChange = (e, { value }) => actions.setTiles(value);
   const onPerformanceChange = (e, { value }) => actions.setPerformance(value);
   const onBlockSizeChange = (e, { value }) => actions.setBlockSize(value);
   const onStatusChange = (e, { value }) => actions.setStatus(value);
@@ -50,6 +57,19 @@ function Filters() {
                 defaultValue={filter.category}
                 onChange={onCategoryChange}
                 options={arrayToObject(Object.keys(categories))}
+              />
+            </Label>
+          </Form.Field>
+          <Form.Field>
+            <Label>
+              No. of Tiles:{' '}
+              <Dropdown
+                {...dropDownOptions}
+                placeholder="Tiles"
+                icon="slack"
+                defaultValue={filter.tiles}
+                onChange={onTilesChange}
+                options={arrayToObject(Object.keys(TILES))}
               />
             </Label>
           </Form.Field>

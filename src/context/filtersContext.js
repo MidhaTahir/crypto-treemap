@@ -7,6 +7,7 @@ import {
   SET_BLOCK_SIZE,
   SET_STATUS,
   SET_VOLUME,
+  SET_TILES,
 } from './filtersReducer';
 
 const FiltersContext = createContext();
@@ -17,6 +18,7 @@ export const FiltersProvider = ({ children }) => {
   const [state, dispatch] = useReducer(filtersReducer, {
     type: 'Coins and Tokens',
     category: 'None',
+    tiles: '50',
     performance: '1 day',
     blockSize: 'market cap',
     status: 'all',
@@ -60,6 +62,12 @@ export const FiltersProvider = ({ children }) => {
       payload: value,
     });
 
+  const setTiles = value =>
+    dispatch({
+      type: SET_TILES,
+      payload: value,
+    });
+
   const value = {
     state,
     actions: {
@@ -69,6 +77,7 @@ export const FiltersProvider = ({ children }) => {
       setBlockSize,
       setStatus,
       setVolume,
+      setTiles,
     },
   };
 
