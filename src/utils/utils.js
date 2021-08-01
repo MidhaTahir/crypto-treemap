@@ -97,7 +97,7 @@ export function formatData(data = [], filters, coins = [], tokens = []) {
     });
 
   return {
-    name: 'CoinTreeMap',
+    name: 'No data',
     children: filteredData.map((coinInfo, coinIdx) => {
       const blockColor = computeBlockColor(coinInfo[performance], status);
 

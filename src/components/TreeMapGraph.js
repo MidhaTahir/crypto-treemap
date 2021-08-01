@@ -41,7 +41,7 @@ const TreeMapGraph = () => {
       fetch(`${url}`)
         .then(res => res.json())
         .then(jsonData => {
-          if (jsonData instanceof Array) {
+          if (jsonData instanceof Array && jsonData.length) {
             setResponses(prev => ({
               ...prev,
               [category]: jsonData,
@@ -51,7 +51,9 @@ const TreeMapGraph = () => {
             setOpen(true);
           }
         })
-        .catch(error => console.log({ error }))
+        .catch(error => {
+          console.log({ error });
+        })
         .finally(() => setTimeout(() => setLoading(false), 500));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -163,11 +165,14 @@ const TreeMapGraph = () => {
         value="value"
         colors={params => params.data.color}
         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-        labelTextColor="#ffffff"
+        labelTextColor={formattedData.children.length ? '#ffffff' : '#373737'}
         borderColor={{ from: 'color' }}
         leavesOnly={true}
-        nodeOpacity={0.9}
-        label={e => (e.data.name ? <FormatLabel value={e} /> : 'No Data Found')}
+        nodeOpacity={1}
+        label={e => {
+          console.log(e);
+          return e.data.otherData ? <FormatLabel value={e} /> : 'No Data Found';
+        }}
         labelSkipSize={40}
         tile="binary"
         orientLabel={false}
