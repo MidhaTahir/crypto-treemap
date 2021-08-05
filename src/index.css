@@ -28,3 +28,14 @@ code {
   margin: 0;
   padding-bottom: 2px;
 }
+
+.d-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.d-flex > * {
+  margin: 4px !important;
+}

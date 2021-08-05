@@ -34,7 +34,7 @@ function Filters() {
   return (
     <>
       <Form>
-        <Form.Group>
+        <Form.Group className="d-flex">
           <Form.Field>
             <Label>
               Type{' '}
