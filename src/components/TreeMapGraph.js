@@ -8,12 +8,11 @@ import { useSliderSettings } from '../context/sliderSettingsContext';
 import { useCategories } from '../context/categoriesContext';
 import { Loader } from 'semantic-ui-react';
 import CustomModal from './CustomModal';
-import { BILLION } from '../utils/constants';
+import { BILLION, PERFORMANCE } from '../utils/constants';
 
 const TreeMapGraph = () => {
   //for modal
   const [open, setOpen] = useState(false);
-
   const [loading, setLoading] = useState(false);
   const { state: filters, actions } = useFilters();
   const { setSettings } = useSliderSettings();
@@ -96,15 +95,10 @@ const TreeMapGraph = () => {
     const fontSize = calculateFontSize(value.width);
     const priceFontSize = fontSize / 4;
     const changeFontSize = priceFontSize / 2;
-    //let fontSizeH = fontSize / 4
-    const {
-      current_price,
-      price_change_percentage_1h_in_currency,
-      change_percentage_24h_in_currency,
-      price_change_percentage_7d_in_currency,
-      price_change_percentage_14d_in_currency,
-      price_change_percentage_30d_in_currency,
-    } = value.data.otherData ?? {};
+    const { current_price } = value.data.otherData ?? {};
+    const price_change =
+      value.data.otherData[PERFORMANCE[filters.performance]] ?? {};
+
     return (
       <div
         style={{
@@ -125,7 +119,8 @@ const TreeMapGraph = () => {
           {value.data.name.toUpperCase()}
         </div>
         <div>${current_price}</div>
-        {price_change_percentage_1h_in_currency ? (
+
+        {price_change ? (
           <div
             style={{
               fontSize: changeFontSize,
@@ -133,8 +128,8 @@ const TreeMapGraph = () => {
               alignItems: 'center',
             }}
           >
-            {price_change_percentage_1h_in_currency > 0 ? '+' : null}
-            {Math.round(price_change_percentage_1h_in_currency * 100) / 100}%
+            {price_change > 0 ? '+' : null}
+            {Math.round(price_change * 100) / 100}%
           </div>
         ) : null}
       </div>
