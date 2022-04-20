@@ -9,3 +9,7 @@
 ### ⚡ Web Preview:
 
 - https://cryptotreemap.surge.sh/
+
+### Inspired by:
+
+https://coin360.com/
